@@ -26,44 +26,45 @@ function resetForm(){
 
 function generateReport(){
     const patientNumber = patients.length;
-    const diabetes = patients.filter(function(patient , ind){
-        return patient.condition === "Diabetes";
-    })
 
-    const Thyroids = patients.filter(function(patient , ind){
-        return patient.condition === "Thyroid";
-    })
+    const conditionsCount = {
+        Diabetes:0,
+        Thyroid:0,
+        "High Blood Pressure": 0,
+    };
 
-    const highBlood = patients.filter(function(patient , ind){
-        return patient.condition === "High Blood Pressure";
-    })
+    const conditionsGenderCount = {
+        Male: {
+            Diabetes:0,
+            Thyroid:0,
+            "High Blood Pressure": 0,
+        },
+        Female: {
+            Diabetes:0,
+            Thyroid:0,
+            "High Blood Pressure": 0,
+        }
+    };
 
-    const diabetesMale = patients.filter(function(patient , ind){
-        return patient.gender === "Male" && patient.condition === "Diabetes";
-    })
-
-    const ThyroidsMale = patients.filter(function(patient , ind){
-        return patient.gender === "Male" && patient.condition === "Thyroid";
-    })
-
-    const highBloodMale = patients.filter(function(patient , ind){
-        return patient.gender === "Male" && patient.condition === "High Blood Pressure";
-    })
+    for(const patient of patients){
+        conditionsCount[patient.condition]++;
+        conditionsGenderCount[patient.gender][patient.condition]++;
+    }
 
     report.innerHTML = `Number of patients: ${patientNumber}<br><br>
                         Conditions Breakdown: <br>
-                        Diabetes: ${diabetes.length}<br>
-                        Thyroid: ${Thyroids.length}<br>
-                        High Blood Pressure: ${highBlood.length}<br><br>
+                        Diabetes: ${conditionsCount["Diabetes"]}<br>
+                        Thyroid: ${conditionsCount["Thyroid"]}<br>
+                        High Blood Pressure: ${conditionsCount["High Blood Pressure"]}<br><br>
                         Gender-Based Conditions: <br>
                         Male:<br>
-                        Diabetes:${diabetesMale.length}<br>
-                        Thyrois:${ThyroidsMale.length}<br>
-                        High Blood Pressure:${highBloodMale.length}<br>
+                        Diabetes:${conditionsGenderCount["Male"]["Diabetes"]}<br>
+                        Thyroid:${conditionsGenderCount["Male"]["Thyroid"]}<br>
+                        High Blood Pressure:${conditionsGenderCount["Male"]["High Blood Pressure"]}<br>
                         Female:<br>
-                        Diabetes:${diabetes.length - diabetesMale.length}<br>
-                        Thyrois:${Thyroids.length - ThyroidsMale.length}<br>
-                        High Blood Pressure:${highBlood.length - highBloodMale.length}<br>`
+                        Diabetes:${conditionsGenderCount["Female"]["Diabetes"]}<br>
+                        Thyroid:${conditionsGenderCount["Female"]["Thyroid"]}<br>
+                        High Blood Pressure:${conditionsGenderCount["Female"]["High Blood Pressure"]}<br>`
 
 }
 
